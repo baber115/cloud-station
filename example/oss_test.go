@@ -17,7 +17,6 @@ var (
 )
 
 func init() {
-	c, err := oss.New("http://oss-cn-hangzhou.aliyuncs.com", "LTAI5tMZEzYU8Q61jrFXFazb", "Athm3Jf4GhJaDD8zp6GzQHdiXagyZh")
 	c, err := oss.New(OssEndpoint, AccessKey, AccessSecret)
 	if err != nil {
 		HandleError(err)
