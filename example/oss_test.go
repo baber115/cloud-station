@@ -2,18 +2,18 @@ package example_test
 
 import (
 	"fmt"
-	"github.com/aliyun/aliyun-oss-go-sdk/oss"
-	"os"
 	"testing"
+
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
 
 var client *oss.Client
 
 var (
-	AccessKey    = os.Getenv("ALI_AK")
-	AccessSecret = os.Getenv("ALI_SK")
-	OssEndpoint  = os.Getenv("ALI_OSS_ENDPOINT")
-	BucketName   = os.Getenv("ALI_BUCKET_NAME")
+	AccessKey    = "LTAI5tMZEzYU8Q61jrFXFazb"
+	AccessSecret = "Athm3Jf4GhJaDD8zp6GzQHdiXagyZh"
+	OssEndpoint  = "http://oss-cn-hangzhou.aliyuncs.com"
+	BucketName   = "devcloud-station-baber"
 )
 
 func init() {
@@ -37,8 +37,8 @@ func TestBucketList(t *testing.T) {
 func TestUploadFile(t *testing.T) {
 	bucket, err := client.Bucket(BucketName)
 	HandleError(err)
-
-	err = bucket.PutObjectFromFile("my-object", "LocalFile")
+	// 上传当前文件
+	err = bucket.PutObjectFromFile("mydir/test.go", "oss_test.go")
 	HandleError(err)
 }
 
