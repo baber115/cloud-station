@@ -12,15 +12,47 @@ type AwsOssStore struct {
 
 var _ store.Uploader = &AwsOssStore{}
 
-func NewAwsOssStore(endPoint, accessKey, accessSecret string) (error, *AwsOssStore) {
-	c, err := oss.New(endPoint, accessKey, accessSecret)
-	if err != nil {
-		return err, nil
+type Options struct {
+	EndPoint     string
+	AccessKey    string
+	AccessSecret string
+}
+
+func (o *Options) Valid() error {
+	if o.EndPoint == "" {
+		return fmt.Errorf("endPint 不能为空")
+	}
+	if o.AccessKey == "" {
+		return fmt.Errorf("AccessKey 不能为空")
+	}
+	if o.AccessSecret == "" {
+		return fmt.Errorf("secretKey 不能为空")
 	}
 
-	return nil, &AwsOssStore{
-		client: c,
+	return nil
+}
+
+func NewAwsOssDefaultStore() (*AwsOssStore, error) {
+	return NewAwsOssStore(&Options{
+		EndPoint:     "",
+		AccessKey:    "",
+		AccessSecret: "",
+	})
+}
+
+func NewAwsOssStore(o *Options) (*AwsOssStore, error) {
+	// 校验输入参数
+	if err := o.Valid(); err != nil {
+		return nil, err
 	}
+	c, err := oss.New(o.EndPoint, o.AccessKey, o.AccessSecret)
+	if err != nil {
+		return nil, err
+	}
+
+	return &AwsOssStore{
+		client: c,
+	}, nil
 }
 
 func (aws *AwsOssStore) Upload(bucketName, objectKey, fileName string) error {

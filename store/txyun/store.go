@@ -14,8 +14,41 @@ var (
 	_ store.Uploader = &TxOssStore{}
 )
 
-func NewTxOssStore(endPoint, accessKey, accessSecret string) (*TxOssStore, error) {
-	c, err := oss.New(endPoint, accessKey, accessSecret)
+type Options struct {
+	EndPoint     string
+	AccessKey    string
+	AccessSecret string
+}
+
+func (o *Options) Valid() error {
+	if o.EndPoint == "" {
+		return fmt.Errorf("endPint 不能为空")
+	}
+	if o.AccessKey == "" {
+		return fmt.Errorf("AccessKey 不能为空")
+	}
+	if o.AccessSecret == "" {
+		return fmt.Errorf("secretKey 不能为空")
+	}
+
+	return nil
+}
+
+func NewTxOssDefaultStore() (*TxOssStore, error) {
+	return NewTxOssStore(&Options{
+		EndPoint:     "",
+		AccessKey:    "",
+		AccessSecret: "",
+	})
+}
+
+func NewTxOssStore(options *Options) (*TxOssStore, error) {
+	// 校验输入参数
+	if err := options.Valid(); err != nil {
+		return nil, err
+	}
+
+	c, err := oss.New(options.EndPoint, options.AccessKey, options.AccessSecret)
 	if err != nil {
 		return nil, err
 	}

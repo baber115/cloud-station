@@ -5,7 +5,10 @@ go 1.18
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.3+incompatible // indirect
 	github.com/davecgh/go-spew v1.1.0 // indirect
+	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/spf13/cobra v1.4.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/stretchr/testify v1.7.1 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
